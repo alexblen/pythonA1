@@ -72,3 +72,28 @@ def PlotTimeIntervals(Rt0,t1,t2):
 PlotTimeIntervals(Rt0,0,20)
 PlotTimeIntervals(Rt0,300,320)
 PlotTimeIntervals(Rt0,380,400)
+
+#question 2
+
+#part 1
+M=5
+value=1
+Traj = np.where(np.array(x) == value)[0]+1
+Traj1= np.where(np.array(y) == value)[0]+1
+
+#if i want a list can do
+#Trajt=[i+1 for i,val in enumerate(x) if val==1]
+ 
+    
+def new_position(R,Traj):
+    Trajt1=np.zeros_like(Traj)
+    M=len(Traj)
+    N=len(R)
+    for m in range(M):
+        num=Traj[m]
+        if R[(num)%N]==1:
+            Trajt1[m]=Traj[m]
+        else:
+            Trajt1[m]=Traj[m]+1
+    return Trajt1
+
