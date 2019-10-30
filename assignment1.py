@@ -97,3 +97,14 @@ def new_position(R,Traj):
             Trajt1[m]=Traj[m]+1
     return Trajt1
 
+def new_updateR(Trajt1,N):
+    r=np.zeros((N,1))
+    for t in range(len(Traj)):
+        j=Trajt1[t]%N
+        r[j-1]=1
+    return r
+
+def ave_vel(R,Traj,t):
+    Trajt1=new_position(R,Traj)
+    speed=Trajt1-Trajt
+    return speed
