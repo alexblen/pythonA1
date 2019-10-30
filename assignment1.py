@@ -75,18 +75,19 @@ def updateRtimes(Rt,T):
     return Rt
 
 #part 3
-c=20
-temp=Rt0
-for t in range(c):
-    updated=updateRtimes(Rt0,t)
-    temp=np.concatenate((temp,updated),axis=1)
-plt.imshow(temp.T)
-#def PlotTimeIntervals(Trow,t1,t2):
-#    c=t2-t1
-#    for t in range(c):
-#         Trow=np.concatenate((Trow,updateRtimes(Trow,t1+t+1)),axis=1)
-#    plt.imshow(Trow.T)
-#    plt.show()
+def PlotTimeIntervals(Rt0,t1,t2):
+    '''
+    calculates all the positions for the cars between t1 and t2
+    then plots a checkerboard of where each car is at each time
+    '''
+    c=t2-t1
+    Start_pos=updateRtimes(Rt0,t1)
+    temp=Start_pos
+    for t in range(c):
+        updated=updateRtimes(Start_pos,t+1)
+        temp=np.concatenate((temp,updated),axis=1)
+    return plt.imshow(temp.T)
+
     
 PlotTimeIntervals(Rt0,0,20)
 PlotTimeIntervals(Rt0,300,320)
