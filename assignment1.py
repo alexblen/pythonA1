@@ -6,31 +6,34 @@ Created on Wed Oct 30 10:33:33 2019
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
 #question 1
 #part a
 def updateR(Rt):
-#this function takes a vector of car positions and returns the positions of those cars at t+1
+    '''
+    this function takes a vector of car positions and returns the positions of those cars at t+1
+    '''
     Rt1=np.zeros_like(Rt)
     N=len(Rt)
 #    Rt[N]==Rt[0]
-    for n in range(N-1):
-        if(Rt[n]==0 and Rt[n-1]==0):
+    for n in range(1,N):
+        if np.array((Rt[n]==0, Rt[n-1]==0)).all():
             Rt1[n]=0
-        elif (Rt[n]==0 and Rt[n-1]==1):
+        elif np.array((Rt[n]==0, Rt[n-1]==1)).all():
             Rt1[n]=1
     for n in range(N-2):
-        if(Rt[n]==1 and Rt[n+1]==0):
+        if np.array((Rt[n]==1, Rt[n+1]==0)).all():
             Rt1[n]=0
-        elif(Rt[n]==1 and Rt[n+1]==1):
+        elif np.array((Rt[n]==1, Rt[n+1]==1)).all():
             Rt1[n]=1
-    if(Rt[N-1]==1 and Rt[0]==0):
+    if np.array((Rt[N-1]==1, Rt[0]==0)).all():
         Rt1[N-1]=0
-    if(Rt[N-1]==1 and Rt[0]==1):
+    if np.array((Rt[N-1]==1, Rt[0]==1)).all():
         Rt1[N-1]=1
-#    if(Rt[0]==0 and Rt[N-1]==0):
-#        Rt1[0]=0
-#    if(Rt[0]==0 and Rt[N-1]==1):
-#        Rt1[0]=1
+    if np.array((Rt[0]==0, Rt[N-1]==0)).all():
+        Rt1[0]=0
+    if np.array((Rt[0]==0, Rt[N-1]==1)).all():
+        Rt1[0]=1
     return Rt1
             
 x=[1,0,0,1,1,1,0,0,1]
@@ -39,7 +42,7 @@ y=updateR(x)
 #i need to improve part a to take into account the periodic boundary condition 
 #is there a better way i can write the function than returning all the posibilities?
 
-#part b
+#part 2
 Nb=100
 Rt0=np.zeros((Nb,1))
 
@@ -70,3 +73,21 @@ def updateRtimes(Rt,T):
         Rt1=updateR(Rt)
         Rt=Rt1
     return Rt
+
+#part 3
+c=20
+temp=Rt0
+for t in range(c):
+    updated=updateRtimes(Rt0,t)
+    temp=np.concatenate((temp,updated),axis=1)
+plt.imshow(temp.T)
+#def PlotTimeIntervals(Trow,t1,t2):
+#    c=t2-t1
+#    for t in range(c):
+#         Trow=np.concatenate((Trow,updateRtimes(Trow,t1+t+1)),axis=1)
+#    plt.imshow(Trow.T)
+#    plt.show()
+    
+PlotTimeIntervals(Rt0,0,20)
+PlotTimeIntervals(Rt0,300,320)
+PlotTimeIntervals(Rt0,380,400)
