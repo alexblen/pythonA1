@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Oct 30 10:33:33 2019
-
-@author: s1983051
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 #question 1
@@ -15,36 +8,23 @@ def updateR(Rt):
     '''
     Rt1=np.zeros_like(Rt)
     N=len(Rt)
-#    Rt[N]==Rt[0]
-    for n in range(1,N):
-        if np.array((Rt[n]==0, Rt[n-1]==0)).all():
-            Rt1[n]=0
-        elif np.array((Rt[n]==0, Rt[n-1]==1)).all():
-            Rt1[n]=1
-    for n in range(N-2):
-        if np.array((Rt[n]==1, Rt[n+1]==0)).all():
-            Rt1[n]=0
-        elif np.array((Rt[n]==1, Rt[n+1]==1)).all():
-            Rt1[n]=1
-    if np.array((Rt[N-1]==1, Rt[0]==0)).all():
-        Rt1[N-1]=0
-    if np.array((Rt[N-1]==1, Rt[0]==1)).all():
-        Rt1[N-1]=1
-    if np.array((Rt[0]==0, Rt[N-1]==0)).all():
-        Rt1[0]=0
-    if np.array((Rt[0]==0, Rt[N-1]==1)).all():
-        Rt1[0]=1
+    for n in range(N):
+        if Rt[n]==0:
+            Rt1[n]=Rt[n-1]
+        elif Rt[n]==1:
+            if Rt[(n+1)%N]==0:
+                Rt1[n]=0
+            else:
+                Rt1[n]=1
     return Rt1
             
 x=[1,0,0,1,1,1,0,0,1]
 y=updateR(x)
 
-#i need to improve part a to take into account the periodic boundary condition 
-#is there a better way i can write the function than returning all the posibilities?
 
 #part 2
-Nb=100
-Rt0=np.zeros((Nb,1))
+NumCells=100
+Rt0=np.zeros((NumCells,1))
 
 def primes():
     '''
@@ -61,7 +41,7 @@ def primes():
 
 prime100=primes()
 
-for i in range(1,Nb):
+for i in range(1,NumCells):
     if(i in prime100 or (i>40 and i<=55)):
         Rt0[i-1]=1
 
