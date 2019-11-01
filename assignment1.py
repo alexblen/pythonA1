@@ -28,6 +28,7 @@ for i in range(1,NumCells):
     prime=sympy.isprime(i)
     if(prime==True or (i>40 and i<=55)):
         R_prime[i-1]=1
+R_prime=R_prime.astype(int)
 
 def updateRtimes(R,T):
     '''
@@ -64,13 +65,6 @@ PlotTimeIntervals(R_prime,380,400)
 
 #part 1
 
-#creating vectors to test (using the example in class)
-M=5
-value=1
-x=np.array((1,0,0,1,1,1,0,0,1)).reshape(9,1)
-y=updateR(x)
-Traj_x = np.array((1,4,5,6,9)).reshape(5,1)
-Traj1_x= np.where(np.array(y) == value)[0]+1
 
 #if i want a list can do
 #Trajt=[i+1 for i,val in enumerate(x) if val==1]
@@ -89,7 +83,7 @@ def new_position(R,Traj):
             Traj_new[m]=Traj[m,-1]
         else:
             Traj_new[m]=Traj[m,-1]+1
-    return Traj_new
+    return Traj_new.astype(int)
 
 def new_updateR(Traj_t1,N):
     '''
@@ -99,16 +93,59 @@ def new_updateR(Traj_t1,N):
     for t in range(len(Traj_t1)):
         j=Traj_t1[t]%N
         R[j-1]=1
-    return R
+    return R.astype(int)
 
 def ave_vel(Traj,t):
     '''
     tells us the speed at which a car is moving
     '''
     speed=Traj[:,t]-Traj[:,t-1]
-    velocity=np.average(speed)
-    return round(velocity,2)
+    return sum(speed)/len(Traj[:,t])
+    
 
+        
+#part 1
+x=np.array((1,0,0,1,1,1,0,0,1)).reshape(9,1)
+x1=updateR(x)
+x2=updateR(x1)
+Traj_x = np.array((1,4,5,6,9)).reshape(5,1)
+Traj_1=new_position(x,Traj_x)
+Traj_2=new_position(x1,Traj_1)
+Traj_3=new_position(x2,Traj_2)
+np.concatenate((Traj_x,Traj_1,Traj_2,Traj_3),axis=1)
+
+#Part 2
+N_2=50
+M_2=15
+T_2=50
+test_2=np.concatenate((np.ones((M_2,1)),np.zeros((N_2-M_2,1))))
+Test_speed=np.zeros((T_2,1))
+Test_Traj=np.array((1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)).reshape(15,1)
+for t in range(T_2):
+    Test_R=updateRtimes(test_2,t)
+    Test_Traj_1=new_position(Test_R,Test_Traj)
+    Test_Traj_matrix=np.concatenate((Test_Traj,Test_Traj_1),axis=1)
+    Test_speed[t]=ave_vel(Test_Traj_matrix,1)
+    Test_Traj=Test_Traj_1
+Test_speed
+#creating vectors to test (using the example in class)
+M=5
+x=np.array((1,0,0,1,1,1,0,0,1)).reshape(9,1)
+x1=updateR(x)
+x2=updateR(x1)
+y_10updates=updateRtimes(x,9)
+Traj_x = np.array((1,4,5,6,9)).reshape(5,1)
+Traj_y=new_position(x,Traj_x)
+Traj_matrix=np.concatenate((Traj_x,Traj_y),axis=1)
+vel_car=ave_vel(Traj_matrix,1)
+
+x
+y
+y_10updates
+Traj_x
+Traj_y
+Traj_matrix
+vel_car
 
 
 
@@ -128,3 +165,4 @@ def ave_vel(Traj,t):
 #                prime_list.remove(j)
 #    return prime_list
 #prime100=primes()
+
