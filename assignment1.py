@@ -246,3 +246,29 @@ vel_car
 #    return prime_list
 #prime100=primes()
 
+
+#DONT NEED
+def plot_ave_speed(R,Traj_2,T_2):
+    '''
+    This puts M cars in the first cells of N rows
+    Then returns plot of the cars speed at time T
+    '''
+    Temp=R
+    Speed=np.zeros((T_2,1))
+    steady_speed=0
+    for t in range(T_2):
+        R=updateRtimes(Temp,t)
+        Traj_new_2=new_position(R,Traj_2)
+        Traj_matrix=np.concatenate((Traj_2,Traj_new_2),axis=1)
+        Speed[t]=ave_vel(Traj_matrix,1)
+        Traj_2=Traj_new_2
+        if Speed[t]>steady_speed:
+            time_to_steady=t+1
+            steady_speed=Speed[t]
+    xgrid=np.linspace(1,T_2,T_2).astype(int)
+    fig = plt.figure()
+    fig1=plt.plot(xgrid,Speed,'k-')
+    axes = plt.gca()
+    axes.set_ylim([0, 1.1])
+    return time_to_steady
+
