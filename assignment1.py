@@ -183,12 +183,12 @@ plot_ave_speed(R_test_4,Traj_test_4,50)
 
 #Part 4
 M=20
-R_test_5=create_first_M_cells(20,50)
-Traj_test_5=create_Traj(R_test_5)
+R_test_5=create_first_M_cells(M,50)
+Traj_test_5=create_Traj_t(R_test_5)
 plot_ave_speed(R_test_5,Traj_test_5,50)
 
-Traj_test_6=sorted(rand.sample(range(0,50),20))
-Traj_test_6=np.array(Traj_test_6).reshape(20,1)
+Traj_test_6=sorted(rand.sample(range(0,50),M))
+Traj_test_6=np.array(Traj_test_6).reshape(M,1)
 R_test_6=new_updateR(Traj_test_6,50)
 plot_ave_speed(R_test_6,Traj_test_6,50)
 
@@ -196,7 +196,7 @@ Traj_test_7=np.array((1,2,4,5,7,8,10,11,13,14,16,17,19,20,22,23,25,26,28,29)).re
 R_test_7=new_updateR(Traj_test_7,50)
 plot_ave_speed(R_test_7,Traj_test_7,50)
 
-
+#PART 4
 #WITH m=30
 M=30
 R_test_5b=create_first_M_cells(M,50)
@@ -212,17 +212,28 @@ Traj_test_7b=np.array((1,2,4,5,7,8,10,11,13,14,16,17,19,20,22,23,25,26,28,29,31,
 R_test_7b=new_updateR(Traj_test_7b,50)
 plot_ave_speed(R_test_7b,Traj_test_7b,50)
 
-#creating vectors to test (using the example in class)
-M=5
-x=np.array((1,0,0,1,1,1,0,0,1)).reshape(9,1)
-x1=updateR(x)
-x2=updateR(x1)
-y_10updates=updateRtimes(x,9)
-Traj_x = np.array((1,4,5,6,9)).reshape(5,1)
-Traj_y=new_position(x,Traj_x)
-Traj_matrix=np.concatenate((Traj_x,Traj_y),axis=1)
-vel_car=ave_vel(Traj_matrix,1)
 
+#THEY ALL GET TO THE SAME LIMIT WHERE THEY ARE AS SPREAD OUT AS POSSIBLE
+
+#PART 6
+def Ave_Vel_Bern(N):
+    P=np.linspace(0.2,0.8,10)
+    speed=np.zeros(10)
+    i=0
+    for p in P:
+        cars=stats.bernoulli.rvs(p,size=N)
+        Traj1=create_Traj_t(cars)
+        Traj=create_Traj(cars,Traj1,200)
+        speed[i]=ave_vel(Traj,200)
+        i+=1
+    plt.plot(P,speed,'ko')
+    plt.show()
+
+Ave_Vel_Bern(800)
+
+#PART 7
+Ave_Vel_Bern(50)
+Ave_Vel_Bern(2000)
 x
 x1
 y_10updates
@@ -248,7 +259,7 @@ vel_car
 
 
 #DONT NEED
-def plot_ave_speed(R,Traj_2,T_2):
+#(def plot_ave_speed(R,Traj_2,T_2):
     '''
     This puts M cars in the first cells of N rows
     Then returns plot of the cars speed at time T
@@ -270,5 +281,5 @@ def plot_ave_speed(R,Traj_2,T_2):
     fig1=plt.plot(xgrid,Speed,'k-')
     axes = plt.gca()
     axes.set_ylim([0, 1.1])
-    return time_to_steady
+    return time_to_steady)
 
