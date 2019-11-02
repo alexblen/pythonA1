@@ -176,14 +176,24 @@ R_test_4=create_first_M_cells(35,50)
 Traj_test_4=create_Traj(R_test_4)
 plot_ave_speed(R_test_4,Traj_test_4,50)
 
-def final_average_speed(R,M):
-    Traj=create_Traj(R,M)
-
 
 #NEED TO ADD FIGURE NAME ETC
-
-
 #what time does it level out at??
+
+
+#Part 4
+R_test_5=create_first_M_cells(20,50)
+Traj_test_5=create_Traj(R_test_5)
+plot_ave_speed(R_test_5,Traj_test_5,50)
+
+Traj_test_6=sorted(rand.sample(range(0,50),20))
+Traj_test_6=np.array(Traj_test_6).reshape(20,1)
+R_test_6=new_updateR(Traj_test_6,50)
+plot_ave_speed(R_test_6,Traj_test_6,50)
+
+Traj_test_7=np.array((1,2,4,5,7,8,10,11,13,14,16,17,19,20,22,23,25,26,28,29)).reshape(20,1)
+R_test_7=new_updateR(Traj_test_7,50)
+plot_ave_speed(R_test_7,Traj_test_7,50)
 
 
 #M=25 and M=35
