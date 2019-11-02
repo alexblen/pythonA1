@@ -182,6 +182,7 @@ plot_ave_speed(R_test_4,Traj_test_4,50)
 
 
 #Part 4
+M=20
 R_test_5=create_first_M_cells(20,50)
 Traj_test_5=create_Traj(R_test_5)
 plot_ave_speed(R_test_5,Traj_test_5,50)
@@ -196,7 +197,20 @@ R_test_7=new_updateR(Traj_test_7,50)
 plot_ave_speed(R_test_7,Traj_test_7,50)
 
 
-#M=25 and M=35
+#WITH m=30
+M=30
+R_test_5b=create_first_M_cells(M,50)
+Traj_test_5b=create_Traj(R_test_5b)
+plot_ave_speed(R_test_5b,Traj_test_5b,50)
+
+Traj_test_6b=sorted(rand.sample(range(0,50),M))
+Traj_test_6b=np.array(Traj_test_6b).reshape(M,1)
+R_test_6b=new_updateR(Traj_test_6b,50)
+plot_ave_speed(R_test_6b,Traj_test_6b,50)
+
+Traj_test_7b=np.array((1,2,4,5,7,8,10,11,13,14,16,17,19,20,22,23,25,26,28,29,31,32,34,35,37,38,40,41,43,44)).reshape(M,1)
+R_test_7b=new_updateR(Traj_test_7b,50)
+plot_ave_speed(R_test_7b,Traj_test_7b,50)
 
 #creating vectors to test (using the example in class)
 M=5
