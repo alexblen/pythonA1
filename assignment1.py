@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import sympy as sympy
+import random as rand
 #question 1
 #part a
 def updateR(R):
@@ -116,18 +117,28 @@ Traj_3=new_position(x2,Traj_2)
 np.concatenate((Traj_x,Traj_1,Traj_2,Traj_3),axis=1)
 
 #Part 2
-N_2=50
-M_2=15
-T_2=50
-def plot_ave_speed(N_2,M_2,T_2):
+
+def create_Traj(R):
+    '''
+    takes R and returns the trajectory
+    '''
+    N=len(R)
+    M=np.sum(R)
+    i=0
+    Traj=np.zeros((M,1))
+    for n in range(N):
+        if R[n]==1:
+            Traj[i]=n+1
+            i+=1
+    return Traj.astype(int)
+    
+def plot_ave_speed(R,Traj_2,T_2):
     '''
     This puts M cars in the first cells of N rows
     Then returns plot of the cars speed at time T
     '''
-    Temp=np.concatenate((np.ones((M_2,1)),np.zeros((N_2-M_2,1))))
-    Temp=Temp.astype(int)
+    Temp=R
     Speed=np.zeros((T_2,1))
-    Traj_2=np.linspace(1,M_2,M_2).reshape(M_2,1).astype(int)
     steady_speed=0
     for t in range(T_2):
         R=updateRtimes(Temp,t)
@@ -142,14 +153,31 @@ def plot_ave_speed(N_2,M_2,T_2):
     fig = plt.figure()
     fig1=plt.plot(xgrid,Speed,'k-')
     axes = plt.gca()
-    axes.set_ylim([0, 1])
+    axes.set_ylim([0, 1.1])
     return fig,time_to_steady
 
-plot_ave_speed(N_2,M_2,T_2)
-plot_ave_speed(50,25,50)
-plot_ave_speed(50,35,50)
 
+#PART 3
+rand.seed=2
+def create_first_M_cells(M_2,N_2):
+    Temp=np.concatenate((np.ones((M_2,1)),np.zeros((N_2-M_2,1))))   
+    Temp=Temp.astype(int)
+    return Temp
 
+R_test_2=create_first_M_cells(15,50)
+Traj_test_2=create_Traj(R_test_2)
+plot_ave_speed(R_test_2,Traj_test_2,50)
+
+R_test_3=create_first_M_cells(25,50)
+Traj_test_3=create_Traj(R_test_3)
+plot_ave_speed(R_test_3,Traj_test_3,50)
+
+R_test_4=create_first_M_cells(35,50)
+Traj_test_4=create_Traj(R_test_4)
+plot_ave_speed(R_test_4,Traj_test_4,50)
+
+def final_average_speed(R,M):
+    Traj=create_Traj(R,M)
 
 
 #NEED TO ADD FIGURE NAME ETC
