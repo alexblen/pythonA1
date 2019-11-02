@@ -51,7 +51,8 @@ def PlotTimeIntervals(R,t1,t2):
     for t in range(c):
         updated=updateRtimes(Start_pos,t+1)
         temp=np.concatenate((temp,updated),axis=1)
-    return plt.imshow(temp.T)
+    plt.imshow(temp.T)
+    plt.show()
 
     
 PlotTimeIntervals(R_prime,0,20)
@@ -79,7 +80,7 @@ def new_position(R,Traj):
     Traj_new=np.zeros((M,1))
     for m in range(M):
         num=Traj[m,-1]
-        if R[(num)%N]==1:
+        if R[(num)% N]==1:
             Traj_new[m]=Traj[m,-1]
         else:
             Traj_new[m]=Traj[m,-1]+1
@@ -118,16 +119,47 @@ np.concatenate((Traj_x,Traj_1,Traj_2,Traj_3),axis=1)
 N_2=50
 M_2=15
 T_2=50
-test_2=np.concatenate((np.ones((M_2,1)),np.zeros((N_2-M_2,1))))
-Test_speed=np.zeros((T_2,1))
-Test_Traj=np.array((1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)).reshape(15,1)
-for t in range(T_2):
-    Test_R=updateRtimes(test_2,t)
-    Test_Traj_1=new_position(Test_R,Test_Traj)
-    Test_Traj_matrix=np.concatenate((Test_Traj,Test_Traj_1),axis=1)
-    Test_speed[t]=ave_vel(Test_Traj_matrix,1)
-    Test_Traj=Test_Traj_1
-Test_speed
+def plot_ave_speed(N_2,M_2,T_2):
+    '''
+    This puts M cars in the first cells of N rows
+    Then returns plot of the cars speed at time T
+    '''
+    Temp=np.concatenate((np.ones((M_2,1)),np.zeros((N_2-M_2,1))))
+    Temp=Temp.astype(int)
+    Speed=np.zeros((T_2,1))
+    Traj_2=np.linspace(1,M_2,M_2).reshape(M_2,1).astype(int)
+    steady_speed=0
+    for t in range(T_2):
+        R=updateRtimes(Temp,t)
+        Traj_new_2=new_position(R,Traj_2)
+        Traj_matrix=np.concatenate((Traj_2,Traj_new_2),axis=1)
+        Speed[t]=ave_vel(Traj_matrix,1)
+        Traj_2=Traj_new_2
+        if Speed[t]>steady_speed:
+            time_to_steady=t+1
+            steady_speed=Speed[t]
+    xgrid=np.linspace(1,T_2,T_2).astype(int)
+    fig = plt.figure()
+    fig1=plt.plot(xgrid,Speed,'k-')
+    axes = plt.gca()
+    axes.set_ylim([0, 1])
+    return fig,time_to_steady
+
+plot_ave_speed(N_2,M_2,T_2)
+plot_ave_speed(50,25,50)
+plot_ave_speed(50,35,50)
+
+
+
+
+#NEED TO ADD FIGURE NAME ETC
+
+
+#what time does it level out at??
+
+
+#M=25 and M=35
+
 #creating vectors to test (using the example in class)
 M=5
 x=np.array((1,0,0,1,1,1,0,0,1)).reshape(9,1)
@@ -140,16 +172,12 @@ Traj_matrix=np.concatenate((Traj_x,Traj_y),axis=1)
 vel_car=ave_vel(Traj_matrix,1)
 
 x
-y
+x1
 y_10updates
 Traj_x
 Traj_y
 Traj_matrix
 vel_car
-
-
-
-
 
  
 #def primes():
